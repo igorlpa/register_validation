@@ -28,12 +28,13 @@ Verifique se é uma imagem de busto de uma pessoa, com fundo neutro e com boa qu
 Verifique os seguintes requisitos:
 - A imagem deve conter apenas uma pessoa.
 - A pessoa deve estar de frente para a câmera.
-- A pessoa deve estar centralizada.
-- A pessoa deve estar enquadrada do busto ao topo da cabeça e nao pode estar recortada.
-- A pessoa nao deve estar obstruída por objetos, outras pessoas ou partes do proprio corpo.
-- O fundo deve ser neutro.
+- A pessoa deve estar centralizada. Especialmente no eixo horizontal. Aceite leves desvios no eixo vertical.
+- A pessoa deve estar enquadrada do busto ao topo da cabeça (estilo 3x4 ou mais afastada mas do torax pra cima). recuse imagens que a parte inferior do abdomen e/ou pernas sejam visiveis.
+- A pessoa nao deve estar recortada. A pessoa deve estar nitida e claramente sendo recortada. Se o contorno da pessoa tocar levemente a borda deve ser aceito.
+- A pessoa nao deve estar obstruída por objetos, outras pessoas ou partes do proprio corpo. (*RECUSE* se houver bracos cruzados ou outras posicoes que obstruam a visao da face e/ou torax)
+- O fundo deve ser neutro (aceite leves altercoes).
 - A qualidade da imagem deve ser boa (nao deve estar borrada, com excesso de ruidos, mau iluminada, contra luz, etc).
-- A pessoa nao deve estar usando bones, chapeus, mascaras, toucas ou veu.
+- A pessoa nao deve estar usando bones, chapeus, mascaras, toucas ou veu. (desconsiderar relogios, oculos de grau e colares)
 - A imagem nao deve estar manipulada e nem ter sido editada com filtros ou efeitos.
 
 Caso nao consiga identificar alguma das condições acima, retorne False e explique o motivo.
