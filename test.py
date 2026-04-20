@@ -1,7 +1,11 @@
 from PIL import Image
-from src.image_validation import ImageValidation 
+import os
+import json
 from dotenv import load_dotenv
 load_dotenv()
+
+from src.image_validation import ImageValidation 
+from src.doc_validation import DocValidation
 
 
 def main_images():
@@ -32,12 +36,32 @@ def main_images():
 
 
 
+def main_docs():
+    docs_dir = "/Users/igorlucena/Documents/igor - repositorios/register_validation/resources/docs/"
+    doc_paths = list_files_from_dir(docs_dir)
+ 
+    doc_validation = DocValidation()
+    
+    for doc_path in doc_paths:
+        print(doc_path)
+        
+        result = doc_validation.check_doc(doc_path)
+        print(result)
+        print("=" * 50, "\n")
+
+        input("Press Enter to continue...")
+
 
         
+
+def list_files_from_dir(directory: str) -> list[str]:
+    """Returns a list of file paths in a given directory."""
+    return [os.path.join(directory, f) for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
 
 
 
 
 if __name__ == "__main__":
-    main_images()
+    # main_images()
+    main_docs()

@@ -2,7 +2,14 @@
 
 from src.doc_schema import DocSchema
 import os
+import json
 from google import genai
+from PIL import Image
+import base64
+from io import BytesIO
+import pathlib
+from google.genai import types
+
 
 
 class DocValidation:
@@ -31,12 +38,43 @@ Verifique os seguintes requisitos:
 Extraia as seguintes informações do documento:
 - Nome
 - Data de nascimento
-- Numero do cpf
 - Tipo do documento (CNH, RG ou Passaporte)
+- Numero do cpf (Se for um passaporte, retorne o numero do passaporte)
 
 Se a informacao nao estiver presente no documento ou estiver ilegivel, retorne None para o campo correspondente.
 """
     
     def check_doc(self, doc_path: str) -> DocSchema:
-        # TODO: Implement document validation logic
-        pass
+ 
+        if doc_path.lower().endswith('.pdf'):
+            filepath = pathlib.Path(doc_path)
+            file_part = types.Part.from_bytes(data=filepath.read_bytes(), mime_type='application/pdf')
+        else:
+            image = Image.open(doc_path)
+            # Convert PIL Image to bytes
+            buffer = BytesIO()
+            image.save(buffer, format='JPEG')
+            image_bytes = buffer.getvalue()
+            
+            # Create the content with proper MIME type
+            file_part = {
+                "inline_data": {
+                    "mime_type": "image/jpeg",
+                    "data": base64.b64encode(image_bytes).decode('utf-8')
+                }
+            }
+
+        
+        response = self.client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=[self.prompt, file_part],
+            config=genai.types.GenerateContentConfig(
+                #   thinking_config=genai.types.ThinkingConfig(thinking_budget=512),
+                  temperature=0.0,
+                  response_mime_type="application/json",
+                  response_schema=DocSchema
+                )
+        )
+        return DocSchema(**json.loads(response.text))
+               
+       
